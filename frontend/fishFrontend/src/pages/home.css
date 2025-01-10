@@ -1,0 +1,16 @@
+.homePage {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.homeMain {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+}
+
+.Posty {
+    flex: 1;
+}
