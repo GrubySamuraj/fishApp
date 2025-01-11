@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MyHeader } from "../header/header";
 import { FishPost } from "./fishPost";
-import { fish } from "./fish.interface";
+import { fishInterface } from "./fish.interface";
+import axios from "axios";
 
 export function FishesSite() {
-    const [fishes, setFishes] = useState<fish[]>([{ name: "szczupak", wymiarOchronny: 45, okresRozpoczeciaOchrony: new Date("2025-03-01"), okresZakonczeniaOchrony: new Date("2025-04-30") }])
+    const [fishes, setFishes] = useState<fishInterface[]>([])
+    useEffect(() => {
+        getAllFishes();
+    }, [])
+
+    const getAllFishes = async () => {
+        const fishesFromDB = await axios.get("/api/api/fish/getFishes");
+        console.log(fishesFromDB.data)
+        setFishes(fishesFromDB.data)
+    }
     return (
         <div className="fishSite">
             <MyHeader />
@@ -12,9 +22,10 @@ export function FishesSite() {
                 return <FishPost
                     key={fish.name + i}
                     name={fish.name}
-                    wymiarOchronny={fish.wymiarOchronny}
-                    okresRozpoczeciaOchrony={fish.okresRozpoczeciaOchrony}
-                    okresZakonczeniaOchrony={fish.okresZakonczeniaOchrony}
+                    wymiarochronny={fish.wymiarochronny}
+                    imgpath={fish.imgpath}
+                    okresrozpoczeciaochrony={fish.okresrozpoczeciaochrony}
+                    okreszakonczeniaochrony={fish.okreszakonczeniaochrony}
                 />
             })}
 

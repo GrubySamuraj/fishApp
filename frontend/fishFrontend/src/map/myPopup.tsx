@@ -3,7 +3,7 @@ export function MyPopup({ imgStr, desc }: { imgStr: string, desc: string }) {
         <div className="popup">
             <div className="popup-content">
                 <h3>{desc}</h3>
-                <img src={`src/imgs/${imgStr}`} alt="Popup image" className="popup-image" />
+                <img src={imgStr} alt="Popup image" className="popup-image" />
             </div>
         </div>
     );

@@ -1,6 +1,7 @@
-export interface fish {
+export interface fishInterface {
   name: string;
-  wymiarOchronny: number;
-  okresRozpoczeciaOchrony: Date;
-  okresZakonczeniaOchrony: Date;
+  imgpath: string;
+  wymiarochronny: number;
+  okresrozpoczeciaochrony: string;
+  okreszakonczeniaochrony: string;
 }

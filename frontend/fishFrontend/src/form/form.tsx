@@ -1,26 +1,24 @@
 import { useEffect, useState, useRef } from "react";
-import { role } from "../enums/roles";
 import axios from "axios";
+import { AddFishMap, MarkerInterface } from "./mapToAdd";
 
-export function FishForm() {
+export function FishForm({ username }: { username: string }) {
     const [fishes, setFishes] = useState<string[]>([]);
     const [file, setFile] = useState<File | null>(null);
     const [uploadStatus, setUploadStatus] = useState<string | null>(null);
     const [selectedFish, setSelectedFish] = useState<string>("szczupak");
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [description, setDescription] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
     const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-    const user = {
-        username: "wedkarz1",
-        role: role.USER,
-    };
+    const [marker, setMarkers] = useState<MarkerInterface>();
 
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get("/api/getFishes");
-                setFishes(response.data);
+                const response = await axios.get("/api/api/fish/getFishes");
+                setFishes(response.data.map((fish: { name: string }) => {
+                    return fish.name;
+                }));
                 setSelectedFish(response.data[0] || "szczupak");
             } catch (err) {
                 setFishes(["szczupak"]);
@@ -30,7 +28,9 @@ export function FishForm() {
         }
         fetchData();
     }, []);
-
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setTitle(e.target.value);
+    };
     const handleselectedFishChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setSelectedFish(e.target.value);
     };
@@ -51,29 +51,40 @@ export function FishForm() {
         }
 
         const formData = new FormData();
-        console.log(file);
-        console.log(selectedFish);
-        formData.append("file", file);
-        formData.append("fish", selectedFish);
+        if (!(selectedFish && description && marker?.lng && marker?.lat)) {
+            alert("Proszę wypełnić wszystkie dane!")
+            throw new Error("One of the attributes undefined");
+        }
+        else {
+            try {
+                const data = {
+                    fish: selectedFish,
+                    description: description,
+                    lng: marker.lng,
+                    lat: marker.lat,
+                    username: username,
+                    title: title
+                }
+                formData.append("file", file);
+                formData.append("data", JSON.stringify(data));
+                console.log(formData);
+                const response = await axios.post("/api/api/posts/sendPost", formData, {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                });
+                setUploadStatus("Plik został przesłany pomyślnie!");
+                console.log(response.data);
 
-        try {
-            const response = await axios.post("/api/sendData", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                },
-            });
-            setUploadStatus("Plik został przesłany pomyślnie!");
-            console.log(response.data);
-
-            // Resetowanie inputa
-            if (fileInputRef.current) {
-                fileInputRef.current.value = "";
+                if (fileInputRef.current) {
+                    fileInputRef.current.value = "";
+                }
+                setFile(null);
+                setSelectedFish(fishes.length > 0 ? fishes[0] : "szczupak");
+            } catch (err) {
+                setUploadStatus("Wystąpił błąd podczas przesyłania pliku.");
+                console.error("Błąd przesyłania:", err);
             }
-            setFile(null);
-            setSelectedFish(fishes.length > 0 ? fishes[0] : "szczupak");
-        } catch (err) {
-            setUploadStatus("Wystąpił błąd podczas przesyłania pliku.");
-            console.error("Błąd przesyłania:", err);
         }
     };
 
@@ -110,6 +121,14 @@ export function FishForm() {
                     className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 placeholder-gray-400"
                     onChange={handleDescriptionChange}
                 />
+                <span className="text-gray-700">Tytuł postu</span>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Wpisz tytuł postu..."
+                    className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-700 placeholder-gray-400"
+                    onChange={handleTitleChange}
+                />
 
             </label>
             <label className="block">
@@ -122,6 +141,7 @@ export function FishForm() {
                     className="mt-1 block w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-600 hover:file:bg-blue-100"
                 />
             </label>
+            <AddFishMap setMarkers={setMarkers} marker={marker} />
             <button
                 type="submit"
                 className="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
