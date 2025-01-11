@@ -1,12 +1,26 @@
+import { useEffect, useState } from "react";
 import { MyHeader } from "../header/header";
 import { MyLeafletMap } from "../map/functionalMap";
 import "./home.css"
+import { Post } from "../post/Post";
+import { post } from "./post.interface";
+import axios from "axios";
 export function Home() {
-    const getItems = () => {
-        return ['Post 1', 'Post 2', 'Post 3'];
-    }
+    const [post, setPost] = useState<post[]>([]);
+    useEffect(() => {
+        getItems();
+    }, [])
+    const getItems = async () => {
+        try {
 
-    const items = getItems();
+            const response = await axios.get("/api/api/posts/getPosts/");
+            console.log(response.data)
+            setPost(response.data)
+        } catch (err) {
+            console.error(err)
+            alert(err)
+        }
+    }
 
     return (
         <div className="homePage">
@@ -16,9 +30,9 @@ export function Home() {
                 <div className="Posty">
                     <h2>Nasze posty:</h2>
                     <ul>
-                        {items.map((item, index) => (
-                            <li key={index}>{item}</li>
-                        ))}
+                        {post.length > 0 ? post.map((item, index) => (
+                            <Post imgPhoto={item.photoURL} username={item.username} description={item.description} title={item.title} key={"post" + index} />
+                        )) : null}
                     </ul>
                 </div>
             </div>

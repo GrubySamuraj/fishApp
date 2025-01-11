@@ -1,0 +1,30 @@
+.pageContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form1Containter {
+    flex: 1;
+    padding: 20px;
+}
+
+.form2Containter {
+    flex: 1;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+
+    .pageContent {
+        flex-direction: column;
+        justify-content: center;
+        align-items: stretch;
+    }
+
+    .form1Containter,
+    .form2Containter {
+        padding: 10px;
+    }
+}

@@ -1,6 +1,123 @@
 #map {
     height: 500px;
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
-    border: 3px solid #ccc;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 300%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(2px);
+}
+
+.popup-content {
+    position: relative;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    max-width: 500px;
+    max-height: 700px;
+    width: 90%;
+    height: 80%;
+    overflow-y: auto;
+    padding: 20px;
+    text-align: center;
+    /* Wyśrodkowanie zawartości */
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Responsywność dla popup */
+@media (max-width: 768px) {
+    .popup-content {
+        max-width: 90%;
+        max-height: 80%;
+        padding: 15px;
+    }
+}
+
+.popup-image {
+    max-width: 100%;
+    max-height: 60vh;
+    /* Większa wysokość dla obrazu */
+    display: block;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    /* Odstęp między obrazem a tekstem */
+}
+
+/* Styl dla przycisku zamknięcia */
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ff0000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.leaflet-popup-content-wrapper {
+    width: 350px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 16px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    background: #fff;
+    padding: 10px;
+}
+
+.leaflet-popup {
+    max-height: 200px;
+}
+
+.leaflet-popup-content {
+    text-align: center;
+    color: #333;
+    font-family: Arial, sans-serif;
+}
+
+.leaflet-popup-tip {
+    background: #ffffff;
+    width: 20px;
+    height: 20px;
+    transform: rotate(45deg);
+}
+
+/* Dodanie responsywności dla Leaflet popupa */
+@media (max-width: 768px) {
+    .leaflet-popup-content-wrapper {
+        width: 90%;
+        max-height: 400px;
+    }
 }
