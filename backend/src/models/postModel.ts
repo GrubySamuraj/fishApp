@@ -20,6 +20,10 @@ export const addPost = async (
   photoPath: string,
   title: string
 ) => {
+  if (!fish.id) {
+    fish = (await pool.query(`SELECT id FROM fishes WHERE name='${fish}'`))
+      .rows[0];
+  }
   const userRow = await pool.query(
     `SELECT id FROM users WHERE username='${username}'`
   );
