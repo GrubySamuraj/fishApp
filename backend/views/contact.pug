@@ -1,48 +1,52 @@
 doctype html
 html
   head
-    title Kontakt
+    title O nas
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     link(rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
     link(rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css")
     script(src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js")
-  body(class="bg-gray-900 text-gray-100")
+    // Własne style CSS
+    style.
+      body {
+        font-family: 'Arial', sans-serif;
+        background-color:#1a1a1a;
+      }
+      h1, h2 {
+        color: #ffcc00; 
+      }
+      a:hover {
+        color:#3B82E3;
+      }
+  body(class="text-gray-100")
 
     // Nawigacja
     nav(class="bg-gray-800 shadow-md p-4")
       .container.mx-auto.flex.justify-between.items-center
-        a(href="/" class="text-lg font-bold text-white") Strona główna
         div.flex.space-x-4
-          a(href="/add" class="text-blue-400 hover:text-white") Dodaj swój wpis
-          a(href="/contact" class="text-blue-400 hover:text-white") Kontakt
-          a(href="/fishes" class="text-blue-400 hover:text-white") Spis Ryb
+          a(href="/" class="text-lg text-white") Strona główna
+          a(href="/add" class="text-lg text-white") Dodaj swój wpis
+          a(href="/about" class="text-lg text-white") O nas
+          a(href="/fishes" class="text-lg text-white") Spis Ryb
 
     // Sekcja główna
     main(class="container mx-auto mt-10 p-6 bg-gray-800 shadow-md rounded-lg")
       // Nagłówek strony
-      h1(class="text-3xl font-bold mb-4 text-center") Skontaktuj się z nami
-      p(class="text-gray-400 mb-6 text-center") Wypełnij formularz, aby się z nami skontaktować.
+      h1(class="text-3xl font-bold mb-4 text-center") O nas
+      p(class="text-gray-400 mb-6 text-center") Poznaj naszą historię, wartości i misję.
 
-      // Mapa
-      div(id="map" class="w-full h-96 mb-6 rounded-md shadow-lg")
+      // Sekcja opisu
+      section(class="bg-gray-700 p-6 rounded-lg shadow-md space-y-4")
+        h2(class="text-2xl font-bold mb-2") Kim jesteśmy?
+        p(class="text-gray-300") Jesteśmy zespołem pasjonatów przyrody i ekologii. Naszą misją jest popularyzowanie wiedzy o faunie i florze oraz wspieranie działań na rzecz ochrony środowiska.
+        
+        h2(class="text-2xl font-bold mt-6 mb-2") Nasza misja
+        p(class="text-gray-300") Wierzymy, że edukacja i współpraca są kluczem do lepszej przyszłości. Dlatego organizujemy wydarzenia, warsztaty i inicjatywy, które mają na celu podnoszenie świadomości społecznej na temat ochrony przyrody.
+        
+        h2(class="text-2xl font-bold mt-6 mb-2") Nasze wartości
+        ul(class="list-disc list-inside text-gray-300")
+          li Szacunek dla natury
+          li Edukacja ekologiczna
+          li Współpraca na rzecz ochrony środowiska
 
-      // Formularz kontaktowy
-      form(class="space-y-4 bg-gray-700 p-6 rounded-lg shadow-md")
-        div
-          label(for="name" class="block text-sm font-medium text-gray-300") Imię i nazwisko
-          input(type="text" id="name" name="name" required class="mt-1 p-2 w-full border border-gray-600 rounded-md bg-gray-800 text-white")
-
-        div
-          label(for="email" class="block text-sm font-medium text-gray-300") Adres e-mail
-          input(type="email" id="email" name="email" required class="mt-1 p-2 w-full border border-gray-600 rounded-md bg-gray-800 text-white")
-
-        div
-          label(for="message" class="block text-sm font-medium text-gray-300") Wiadomość
-          textarea(id="message" name="message" rows="5" required class="mt-1 p-2 w-full border border-gray-600 rounded-md bg-gray-800 text-white")
-
-        button(type="submit" class="px-4 py-2 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600") Wyślij
-
-    // Stopka
-    footer(class="bg-gray-800 text-gray-400 mt-10 p-4 text-center")
-      p &copy; 2025 Twoja Firma. Wszelkie prawa zastrzeżone.

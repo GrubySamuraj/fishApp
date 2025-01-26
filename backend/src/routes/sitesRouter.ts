@@ -3,6 +3,6 @@ import { siteController } from "../controllers/siteController";
 
 const router = Router();
 
-router.get("/contact", siteController);
+router.get("/about", siteController);
 
 export default router;
